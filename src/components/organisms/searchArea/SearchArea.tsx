@@ -5,7 +5,7 @@ import SearchInput from '../../atoms/searchInput/SearchInput'
 
 const SearchArea = () => {
     return (
-        <Flex direction='column' justify='center' align='center' my={7}>
+        <Flex direction='column' justify='center' align='center' w='100%' my={5}>
                 <SearchInput />
                 <Box mt='20px'>
                     <PraimaryButton />
