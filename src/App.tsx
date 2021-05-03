@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { VFC } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Router from './routing/Router';
 
-function App() {
+const App: VFC = () => {
   return (
     <div>
       <Router />

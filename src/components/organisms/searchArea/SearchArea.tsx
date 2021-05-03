@@ -1,9 +1,9 @@
 import { Box, Center, Flex, Stack } from '@chakra-ui/layout'
-import React from 'react'
+import React, { VFC } from 'react'
 import PraimaryButton from '../../atoms/button/PraimaryButton'
 import SearchInput from '../../atoms/searchInput/SearchInput'
 
-const SearchArea = () => {
+const SearchArea: VFC = () => {
     return (
         <Flex direction='column' justify='center' align='center' w='100%' my={5}>
                 <SearchInput />
