@@ -1,23 +1,18 @@
 import { SearchIcon } from '@chakra-ui/icons'
 import { Input, InputGroup, InputLeftElement } from '@chakra-ui/input'
-import React, { ChangeEvent, KeyboardEvent, VFC } from 'react'
+import React, { ChangeEvent, KeyboardEvent, memo, VFC } from 'react'
 import { useRecoilState } from 'recoil'
 import { useSearchGourmet } from '../../../customHooks/searchGourmet/useSearchGourmet'
 import { SearchKeyword } from '../../../store/globalState/SearchKeyword'
 
-const SearchInput: VFC = () => {
-    const [keyword, setKeyword] = useRecoilState(SearchKeyword)
-    const { Search } = useSearchGourmet()
-    const InputKeyword = (e: ChangeEvent<HTMLInputElement>) => {
-        setKeyword(e.target.value)
-    }
+type Props = {
+    keyword: string;
+    InputKeyword: (e: ChangeEvent<HTMLInputElement>) => void;
+    SubmitEnter: (e: KeyboardEvent<HTMLInputElement>) => void;
+}
 
-    const SubmitEnter = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
-            // e.preventDefault()
-            Search()
-        }
-    }
+const SearchInput: VFC<Props> = memo((props) => {
+    const { keyword, InputKeyword, SubmitEnter } = props
     return (
         <InputGroup w='50%'>    
             <InputLeftElement 
@@ -27,6 +22,6 @@ const SearchInput: VFC = () => {
             <Input type='text' value={keyword} onChange={InputKeyword} onKeyPress={SubmitEnter} bg='white' placeholder='search store...'/>
         </InputGroup>
     )
-}
+})
 
 export default SearchInput

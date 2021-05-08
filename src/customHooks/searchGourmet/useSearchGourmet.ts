@@ -1,25 +1,34 @@
 import axios from 'axios'
-import React from 'react'
+import React, { useState } from 'react'
+import { useRecoilState } from 'recoil'
 import { useRecoilValue } from 'recoil'
 import { SearchKeyword } from '../../store/globalState/SearchKeyword'
+import { SearchResult } from '../../store/globalState/SearchResult'
+import { Shop } from '../../types/api/Shop'
 
 export const useSearchGourmet = () => {
-   const Search = async () => {
+   const [ shopList, setShopList ] = useRecoilState<Array<Shop>>(SearchResult)
+
+   const Search = async (keyword: string) => {
        try {
            // const keyword = useRecoilValue(SearchKeyword)
            let BaseURL = process.env.REACT_APP_BASE_URL
-           const SearchResult = await axios.get('/api/gourmet/v1/', {
+           const key = process.env.REACT_APP_HOTPEPPER_API_KEY
+           
+           const SearchResult = await axios.get(`${BaseURL}`, {
                                        params: {
-                                            key: '331e92f1bdba62ff',
-                                            keyword: '焼肉',
+                                            key: key,
+                                            keyword: keyword,
+                                            format: 'json'
                                        }
                                    })
-           console.log(SearchResult);
+           console.log(SearchResult.data.results.shop);
+           setShopList(SearchResult.data.results.shop)
        } catch (error) {
            console.log(error.message);
        }
         
    }
-   return {Search}
+   return {Search, shopList}
 }
 
