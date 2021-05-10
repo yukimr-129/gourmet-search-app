@@ -4,6 +4,7 @@ import { shouldForwardProp } from '@chakra-ui/system'
 import { Table, Tbody, Td, Th, Tr } from '@chakra-ui/table'
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/tabs'
 import { Tag } from '@chakra-ui/tag'
+import { GoogleMap, LoadScript } from '@react-google-maps/api'
 import React, { VFC } from 'react'
 import { useLocation, useParams } from 'react-router'
 import { Shop } from '../../types/api/Shop'
@@ -11,7 +12,18 @@ import { Shop } from '../../types/api/Shop'
 
 const StoreDetail: VFC = () => {
     const { state }: {state: Shop}  = useLocation()
+    const mapKey: string | undefined = process.env.REACT_APP_GOOGLE_MAP_API_KEY
+    
     console.log(state);
+    const containerStyle = {
+        width: '100%',
+        height: '100vh',
+      };
+      
+    const center = {
+        lat: 35.69575,
+        lng: 139.77521,
+    };
     
     return (
             <Box bg='white' w={{base: '100%', md: '90%'}} minHeight={{base: '100%', md: '100vh'}} mx='auto'>
@@ -93,7 +105,13 @@ const StoreDetail: VFC = () => {
                             </Table>
                         </TabPanel>
                         <TabPanel>
-                        <p>two!</p>
+                            <LoadScript googleMapsApiKey={`${mapKey}`}>
+                                <GoogleMap
+                                    mapContainerStyle={containerStyle}
+                                    center={{lat: state.lat, lng: state.lng}}
+                                    zoom={17}
+                                ></GoogleMap>
+                            </LoadScript>
                         </TabPanel>
                     </TabPanels>
                 </Tabs>

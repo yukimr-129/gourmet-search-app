@@ -24,7 +24,7 @@ export type Shop = {
     large_area: {code: string; name: string;}
     large_service_area: {code: string; name: string;}
     lat: number;
-    lng: string;
+    lng: number;
     logo_image: string;
     lunch: string;
     middle_area: {code: string; name: string;}
