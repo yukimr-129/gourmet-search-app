@@ -1,9 +1,10 @@
 import { Image } from '@chakra-ui/image'
 import { Badge, Box, Divider, HStack, Link, Stack, Text } from '@chakra-ui/layout'
 import React, { memo, VFC } from 'react'
+import { useHistory } from 'react-router'
+
 import { Shop } from '../../../types/api/Shop'
 import informationIcon from '../../../icon/information_icon16.svg'
-import { useHistory } from 'react-router'
 
 type Props = {
     shop: Shop;

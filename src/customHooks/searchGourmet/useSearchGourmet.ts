@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useState } from 'react'
+
 import { useRecoilState } from 'recoil'
 import { useRecoilValue } from 'recoil'
 import { SearchKeyword } from '../../store/globalState/SearchKeyword'
@@ -22,7 +23,7 @@ export const useSearchGourmet = () => {
                                             format: 'json'
                                        }
                                    })
-           console.log(SearchResult.data.results.shop);
+           console.log(SearchResult);
            setShopList(SearchResult.data.results.shop)
        } catch (error) {
            console.log(error.message);

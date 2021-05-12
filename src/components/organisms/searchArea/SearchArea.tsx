@@ -1,5 +1,5 @@
 import { Box, Center, Flex, Stack } from '@chakra-ui/layout'
-import React, { ChangeEvent, KeyboardEvent, VFC } from 'react'
+import React, { ChangeEvent, KeyboardEvent, useCallback, VFC } from 'react'
 import { useRecoilState } from 'recoil'
 import { useSearchGourmet } from '../../../customHooks/searchGourmet/useSearchGourmet'
 import { SearchKeyword } from '../../../store/globalState/SearchKeyword'
@@ -9,11 +9,11 @@ import SearchInput from '../../atoms/searchInput/SearchInput'
 const SearchArea: VFC = () => {
     const [keyword, setKeyword] = useRecoilState(SearchKeyword)
     const { Search } = useSearchGourmet()
-    const InputKeyword = (e: ChangeEvent<HTMLInputElement>) => {
+    const InputKeyword = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setKeyword(e.target.value)
-    }
+    }, [setKeyword])
 
-    const SubmitEnter = (e: KeyboardEvent<HTMLInputElement>) => {
+    const SubmitEnter = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             // e.preventDefault()
             const key = keyword
@@ -22,7 +22,7 @@ const SearchArea: VFC = () => {
             console.log(ReplaceKey);
             Search(ReplaceKey)
         }
-    }
+    }, [Search])
 
     return (
         <Flex direction='column' justify='center' align='center' w='100%' my={5}>

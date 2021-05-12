@@ -1,5 +1,6 @@
 import { Box, Wrap, WrapItem } from '@chakra-ui/layout'
 import React, { VFC } from 'react'
+
 import { useSearchGourmet } from '../../../customHooks/searchGourmet/useSearchGourmet'
 import GourmetShopCard from '../gourmetShopCard/GourmetShopCard'
 
