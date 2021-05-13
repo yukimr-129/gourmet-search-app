@@ -14,7 +14,7 @@ type Props = {
 const SearchInput: VFC<Props> = memo((props) => {
     const { keyword, InputKeyword, SubmitEnter } = props
     return (
-        <InputGroup w='50%'>    
+        <InputGroup w={{base: '80%', md: '50%'}}>    
             <InputLeftElement 
                 pointerEvents='none'
                 children={<SearchIcon color="gray.300" />} 

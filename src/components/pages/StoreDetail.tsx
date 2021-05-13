@@ -35,9 +35,9 @@ const StoreDetail: VFC = () => {
     
     return (
             <Box bg='white' w={{base: '100%', md: '90%'}} minHeight={{base: '100%', md: '100vh'}} mx='auto'>
-                <Box p={3}>
-                    <Flex direction='column' justify='center' w='100%' h={{sm: '50vh', md: '20vh', xl: '60vh'}}>
-                        <Box p={5}>
+                <Box p={{base: 3, md: 8}}>
+                    <Flex direction='column' justify='center' w='100%' h={{sm: '60vh', md: '20vh', xl: '60vh'}}>
+                        <Box>
                             <Flex align='center' mb={5}>
                                 <Image src={state.logo_image} objectFit='cover'/>
                                 <Text fontSize='4xl' fontWeight='800' pl={3}>{state.name}</Text>
