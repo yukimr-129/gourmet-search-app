@@ -5,12 +5,12 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/tabs'
 import { Tag } from '@chakra-ui/tag'
 import { GoogleMap, InfoWindow, LoadScript, Marker } from '@react-google-maps/api'
 import { useLocation} from 'react-router'
-import React, { useState, VFC } from 'react'
+import React, { memo, useState, VFC } from 'react'
 
 import { Shop } from '../../types/api/Shop'
 
 
-const StoreDetail: VFC = () => {
+const StoreDetail: VFC = memo(() => {
     const [infoWindow, setInfoWindow] = useState(true)
     const { state }: {state: Shop}  = useLocation()
     const mapKey: string | undefined = process.env.REACT_APP_GOOGLE_MAP_API_KEY
@@ -155,6 +155,6 @@ const StoreDetail: VFC = () => {
                 </Tabs>
             </Box>
     )
-}
+})
 
 export default StoreDetail

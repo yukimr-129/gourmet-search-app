@@ -1,5 +1,5 @@
 import { Box, Center, Flex, Stack } from '@chakra-ui/layout'
-import React, { ChangeEvent, KeyboardEvent, useCallback, useEffect, VFC } from 'react'
+import React, { ChangeEvent, KeyboardEvent, memo, useCallback, useEffect, useState, VFC } from 'react'
 import { useRecoilState } from 'recoil'
 
 import { useMessage } from '../../../customHooks/message/useMessage'
@@ -8,33 +8,39 @@ import { SearchKeyword } from '../../../store/globalState/SearchKeyword'
 import PraimaryButton from '../../atoms/button/PraimaryButton'
 import SearchInput from '../../atoms/searchInput/SearchInput'
 
-const SearchArea: VFC = () => {
+const SearchArea: VFC = memo(() => {
     const [keyword, setKeyword] = useRecoilState(SearchKeyword)
-    const { Search } = useSearchGourmet()
+    const [ replaceKey, setReplaceKey ] = useState('')
+    const [ doRefetch, setDoRefetch] = useState(false)
+    const { Search, shopList } = useSearchGourmet()
     const { showMessage } = useMessage()
 
     const InputKeyword = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setKeyword(e.target.value)
     }, [setKeyword])
 
-        const SubmitEnter = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
-            if (e.key === 'Enter') {
-                // e.preventDefault()
-                const key = keyword
-    
-                if (!key || !key.match(/\S/g)) {
-                    showMessage({title: '正しい検索条件を入力してください', status: 'error'})
-                } else {
-                    //全角スペースを半角に置換
-                    const ReplaceKey = key.replace(/　/g," ")
-                    Search(ReplaceKey)
-                }
-            }
-        }, [Search])
+    const SubmitEnter = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            // e.preventDefault()
+            const key = keyword
 
-            // useEffect(() => {
-            //     SubmitEnter
-            // }, [Search])
+            if (!key || !key.match(/\S/g)) {
+                showMessage({title: '正しい検索条件を入力してください', status: 'error'})
+            } else {
+                //全角スペースを半角に置換
+                const ReplaceKey = key.replace(/　/g," ")
+                setReplaceKey(ReplaceKey)
+                setDoRefetch(!doRefetch)
+            }
+        }
+    }, [keyword])
+
+    useEffect(() => {
+        // if(doRefetch){
+            Search(replaceKey)
+        //     setDoRefetch(false)
+        // }
+    }, [replaceKey])
 
     return (
         <Flex direction='column' justify='center' align='center' w='100%' my={5}>
@@ -44,6 +50,6 @@ const SearchArea: VFC = () => {
                 </Box>
         </Flex>
     )
-}
+})
 
 export default SearchArea

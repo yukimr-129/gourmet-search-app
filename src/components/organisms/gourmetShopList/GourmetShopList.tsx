@@ -1,18 +1,18 @@
 import { Box, Center, Wrap, WrapItem } from '@chakra-ui/layout'
 import { Spinner } from '@chakra-ui/spinner'
-import React, { VFC } from 'react'
+import React, { memo, VFC } from 'react'
 
 import { useSearchGourmet } from '../../../customHooks/searchGourmet/useSearchGourmet'
 import GourmetShopCard from '../gourmetShopCard/GourmetShopCard'
 
-const GourmetShopList: VFC = () => {
+const GourmetShopList: VFC = memo(() => {
     const { shopList, loading } = useSearchGourmet()
     console.log(shopList);
     
     return (
         <>
         {loading ? (
-            <Center h='50vh'>
+            <Center h='10vh'>
                 <Spinner size='lg'/>
             </Center>
         ) : (
@@ -28,6 +28,6 @@ const GourmetShopList: VFC = () => {
         )}
         </>
     )
-}
+})
 
 export default GourmetShopList
