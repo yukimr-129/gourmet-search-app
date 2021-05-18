@@ -36,10 +36,10 @@ const SearchArea: VFC = memo(() => {
     }, [keyword])
 
     useEffect(() => {
-        // if(doRefetch){
+        if(doRefetch){
             Search(replaceKey)
-        //     setDoRefetch(false)
-        // }
+            setDoRefetch(!doRefetch)
+        }
     }, [replaceKey])
 
     return (
