@@ -1,6 +1,6 @@
 import { Image } from '@chakra-ui/image'
 import { Badge, Box, Divider, Flex, HStack, Link, Stack, Text } from '@chakra-ui/layout'
-import React, { memo, VFC } from 'react'
+import React, { memo, useCallback, VFC } from 'react'
 import { useHistory } from 'react-router'
 
 import { Shop } from '../../../types/api/Shop'
@@ -15,9 +15,9 @@ const GourmetShopCard: VFC<Props> = memo((props) => {
 
     //店舗詳細へ遷移
     const history = useHistory()
-    const onClickDetailPage = () => {
+    const onClickDetailPage = useCallback(() => {
         history.push({pathname: `detail/${shop.id}`, state: shop})
-    }
+    }, [shop])
 
     return (
         <Link _hover={{opacity: 0.8}} onClick={onClickDetailPage}>
