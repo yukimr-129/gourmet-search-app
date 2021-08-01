@@ -19,7 +19,7 @@ const SearchInput: VFC<Props> = memo((props) => {
                 pointerEvents='none'
                 children={<SearchIcon color="gray.300" />} 
             />
-            <Input type='text' value={keyword} onChange={InputKeyword} onKeyPress={SubmitEnter} bg='white' placeholder='search store...'/>
+            <Input type='text' value={keyword} onChange={InputKeyword} onKeyPress={SubmitEnter} bg='white' placeholder='フリーワード検索（店名 地名、駅名など）'/>
         </InputGroup>
     )
 })

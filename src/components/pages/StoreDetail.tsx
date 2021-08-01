@@ -55,7 +55,7 @@ const StoreDetail: VFC = memo(() => {
                                     <HStack>
                                         <Tag variant="outline" colorScheme="gray">ジャンル</Tag>
                                         <Text>
-                                            {state.genre.name} / {state.sub_genre.name}
+                                            {state.genre.name} / {state.sub_genre?.name}
                                         </Text>
                                     </HStack>
                                 </Flex>

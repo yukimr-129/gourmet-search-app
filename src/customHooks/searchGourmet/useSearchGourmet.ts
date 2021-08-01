@@ -2,66 +2,64 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 
 import { useRecoilState } from 'recoil'
-import { useRecoilValue } from 'recoil'
+import { Loading } from '../../store/globalState/Loading'
 import { ReplaceKey } from '../../store/globalState/ReplaceKey'
 import { SearchResult } from '../../store/globalState/SearchResult'
-import { Shop } from '../../types/api/Shop'
 import { useMessage } from '../message/useMessage'
+import { Position } from '../../store/globalState/Position'
+import { SearchKeyword } from '../../store/globalState/SearchKeyword'
+import { FirstMessageFlag } from '../../store/globalState/FirstMessageFlag'
+
 
 export const useSearchGourmet = () => {
-    const [ loading, setLoading ] = useState<boolean>(false)
-    const [ shopList, setShopList ] = useRecoilState<Array<Shop>>(SearchResult)
+    const [ keyword, setKeyword ] = useRecoilState(SearchKeyword)
+    const [ loading, setLoading ] = useRecoilState(Loading)
+    const [ shopList, setShopList ] = useRecoilState(SearchResult)
     const [ replaceKey, setReplaceKey] = useRecoilState(ReplaceKey)
+    const [ position, setPosition ] = useRecoilState(Position)
+    const [firstMessageFlag, setFirstMessageFlag] = useRecoilState(FirstMessageFlag)
     const { showMessage } = useMessage()
 
     useEffect(() => {
-        const Search = async (keyword: string) => {
+        const Search = async (replaceKey: string | null = null, keyword: string | null = null, latitude: number | null, longitude: number | null) => {
             setLoading(true)
-            console.log(loading);
+            setFirstMessageFlag(false)
+            
+            //現在位置を取得している場合は、keywordを優先する
+            const positionFlag = position.latitude && position.longitude
+            const SearchKeyword = positionFlag ? keyword : replaceKey
+
+            console.log(SearchKeyword);
+            
             try {
                 const BaseURL = process.env.REACT_APP_BASE_URL
                 const key = process.env.REACT_APP_HOTPEPPER_API_KEY
                 const SearchResult = await axios.get(`${BaseURL}`, {
                                             params: {
                                                     key: key,
-                                                    keyword: keyword,
+                                                    keyword: SearchKeyword,
+                                                    lat: latitude,
+                                                    lng: longitude,
                                                     count: 50,
                                                     format: 'json'
                                             }
                                         })
-                setShopList(SearchResult.data.results.shop)
+                setShopList(SearchResult.data.results.shop ?? [])
+
+                console.log(shopList);
             } catch (error) {
                 showMessage({title: 'お店の取得に失敗しました', status: "error"})
             }    
             setLoading(false) 
-            console.log(loading);
         }
-        Search(replaceKey)
-        // setReplaceKey('')
-    }, [replaceKey])
-
-    // const Search = async (keyword: string) => {
-    //     setLoading(true)
-    //     console.log(loading);
         
-    //         try {
-    //             const BaseURL = process.env.REACT_APP_BASE_URL
-    //             const key = process.env.REACT_APP_HOTPEPPER_API_KEY
-    //             const SearchResult = await axios.get(`${BaseURL}`, {
-    //                                         params: {
-    //                                                 key: key,
-    //                                                 keyword: keyword,
-    //                                                 count: 50,
-    //                                                 format: 'json'
-    //                                         }
-    //                                     })
-    //             setShopList(SearchResult.data.results.shop)
-    //         } catch (error) {
-    //             showMessage({title: 'お店の取得に失敗しました', status: "error"})
-    //         }    
-    //         setLoading(false) 
-    //         console.log(loading);
-    // }
+        Search(replaceKey, keyword, position.latitude, position.longitude)
+        return () => {
+            console.log('クリーアップ関数');
+            setShopList([])
+        }
+    }, [replaceKey, position])
+
    return {shopList, loading}
 }
 

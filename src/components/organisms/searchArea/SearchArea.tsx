@@ -3,27 +3,29 @@ import React, { ChangeEvent, KeyboardEvent, memo, useCallback, useEffect, useSta
 import { useRecoilState } from 'recoil'
 
 import { useMessage } from '../../../customHooks/message/useMessage'
-import { useSearchGourmet } from '../../../customHooks/searchGourmet/useSearchGourmet'
 import { ReplaceKey } from '../../../store/globalState/ReplaceKey'
 import { SearchKeyword } from '../../../store/globalState/SearchKeyword'
+import { Position } from '../../../store/globalState/Position'
 import PraimaryButton from '../../atoms/button/PraimaryButton'
 import SearchInput from '../../atoms/searchInput/SearchInput'
 
+
 const SearchArea: VFC = memo(() => {
+    const [ inputAreaKeyword, setInputAreaKeyword ] = useState('')
     const [ keyword, setKeyword ] = useRecoilState(SearchKeyword)
     const [ replaceKey, setReplaceKey ] = useRecoilState(ReplaceKey)
-    // const [ replaceKey, setReplaceKey ] = useState('')
+    const [ position, setPosition ] = useRecoilState(Position)
     const [ doRefetch, setDoRefetch] = useState(false)
-    // const { Search } = useSearchGourmet()
     const { showMessage } = useMessage()
 
     const InputKeyword = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        setKeyword(e.target.value)
-    }, [setKeyword])
+        const searchKey = e.target.value
+        setKeyword(searchKey.replace(/　/g," "))
+    }, [keyword])
 
     const SubmitEnter = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-            // e.preventDefault()
+            e.preventDefault()
             const key = keyword
 
             if (!key || !key.match(/\S/g)) {
@@ -33,22 +35,28 @@ const SearchArea: VFC = memo(() => {
                 const ReplaceKey = key.replace(/　/g," ")
                 setReplaceKey(ReplaceKey)
                 setDoRefetch(!doRefetch)
+
+                //通常検索時は現在位置初期化
+                setPosition({latitude: null, longitude: null})
             }
         }
     }, [keyword])
 
-    // useEffect(() => {
-    //     if(doRefetch){
-    //         Search(replaceKey)
-    //         setDoRefetch(!doRefetch)
-    //     }
-    // }, [replaceKey])
+
+    //現在位置取得
+    const presentLocation = useCallback(() => {
+        navigator.geolocation.getCurrentPosition(position => {
+            const {latitude, longitude} = position.coords
+            setPosition({latitude, longitude})  
+            console.log(position);
+        })
+    }, [position])
 
     return (
         <Flex direction='column' justify='center' align='center' w='100%' my={5}>
                 <SearchInput keyword={keyword} InputKeyword={InputKeyword} SubmitEnter={SubmitEnter} />
                 <Box mt='20px'>
-                    <PraimaryButton />
+                    <PraimaryButton presentLocation={presentLocation} />
                 </Box>
         </Flex>
     )

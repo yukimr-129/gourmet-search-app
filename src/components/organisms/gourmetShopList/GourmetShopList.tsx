@@ -1,17 +1,23 @@
 import { Box, Center, Text, Wrap, WrapItem } from '@chakra-ui/layout'
 import { Spinner } from '@chakra-ui/spinner'
-import React, { memo, VFC } from 'react'
-import { useMessage } from '../../../customHooks/message/useMessage'
+import React, { memo, VFC, useState, useEffect } from 'react'
 
 import { useSearchGourmet } from '../../../customHooks/searchGourmet/useSearchGourmet'
 import GourmetShopCard from '../gourmetShopCard/GourmetShopCard'
+import { SearchResult } from '../../../store/globalState/SearchResult'
+import { FirstMessageFlag } from '../../../store/globalState/FirstMessageFlag'
+import { useRecoilState } from 'recoil'
 
 const GourmetShopList: VFC = memo(() => {
     const { shopList, loading } = useSearchGourmet()
-    const shop = shopList
-    const Listlength = shop?.length
+    const [firstMessageFlag, setFirstMessageFlag] = useRecoilState(FirstMessageFlag)
     console.log(shopList);
-    console.log(Listlength);
+    
+    const listLength = shopList.length
+
+    useEffect(() => {
+        setFirstMessageFlag(true)
+    }, [])
     
     return (
         <>
@@ -21,20 +27,24 @@ const GourmetShopList: VFC = memo(() => {
             </Center>
         ) : (
             <Wrap p={{base: 5, md: 8}} justify='center' align='center'>
-                {shopList ? (
+                {listLength ? (
                     shopList.map((shop, index) => (
                         <WrapItem key={shop.id}>
                             <GourmetShopCard shop={shop} />
                         </WrapItem>
                     ))
                 ) : (
-                        Listlength === 0 ? (
-                            <Center>
+                        <Center>
+                            {firstMessageFlag ? (
+                                <Box>
+                                    <Text color='gray.600' fontWeight='bold'>お店を検索してください</Text>
+                                </Box>
+                            ) : (
                                 <Box>
                                     <Text color='gray.600' fontWeight='bold'>該当するお店がありません</Text>
                                 </Box>
-                            </Center>
-                        ) : null
+                            )}
+                        </Center>
                     )
                 }
             </Wrap>
