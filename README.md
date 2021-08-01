@@ -10,5 +10,5 @@
 - React
 - Typescript
 - Recoil
-- chakra　ui
+- chakra-ui
 
