@@ -21,6 +21,9 @@ export const useSearchGourmet = () => {
     const { showMessage } = useMessage()
 
     useEffect(() => {
+        let unmounted = false
+        console.log(unmounted);
+        
         const Search = async (replaceKey: string | null = null, keyword: string | null = null, latitude: number | null, longitude: number | null) => {
             setLoading(true)
             setFirstMessageFlag(false)
@@ -44,7 +47,10 @@ export const useSearchGourmet = () => {
                                                     format: 'json'
                                             }
                                         })
-                setShopList(SearchResult.data.results.shop ?? [])
+
+                if (!unmounted) {
+                    setShopList(SearchResult.data.results.shop ?? [])
+                }
 
                 console.log(shopList);
             } catch (error) {
@@ -54,11 +60,11 @@ export const useSearchGourmet = () => {
         }
         
         Search(replaceKey, keyword, position.latitude, position.longitude)
+
         return () => {
-            console.log('クリーアップ関数');
-            setShopList([])
+            unmounted = true
         }
-    }, [replaceKey, position])
+    }, [replaceKey, position.latitude, position.longitude])
 
    return {shopList, loading}
 }

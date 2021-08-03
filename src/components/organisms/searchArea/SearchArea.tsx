@@ -9,6 +9,17 @@ import { Position } from '../../../store/globalState/Position'
 import PraimaryButton from '../../atoms/button/PraimaryButton'
 import SearchInput from '../../atoms/searchInput/SearchInput'
 
+// type initwatchStatusType = {
+//     isWatching: boolean;
+//     watchId: number | null;
+// }
+
+// type watchStatusType = {
+//     isWatching: boolean;
+//     watchId: number;
+// }
+
+// type stopWatchPosition = (watchStatus: watchStatusType) => void;
 
 const SearchArea: VFC = memo(() => {
     const [ inputAreaKeyword, setInputAreaKeyword ] = useState('')
@@ -18,9 +29,42 @@ const SearchArea: VFC = memo(() => {
     const [ doRefetch, setDoRefetch] = useState(false)
     const { showMessage } = useMessage()
 
+    //現在位置取得
+    const presentLocation = useCallback(() => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(position => {
+                const {latitude, longitude} = position.coords
+                setPosition({latitude, longitude})  
+                console.log(position);
+            }, (error) => {
+                switch (error.code) {
+                    case 1:
+                        showMessage({title: '位置情報の利用が許可されていません', status: 'error'})
+                        break;
+                    case 2:
+                        showMessage({title: '位置情報の利用が許可されていません', status: 'error'})
+                        break;
+                    case 3:
+                        showMessage({title: '現在位置が取得できませんでした', status: 'error'})
+                        break;
+                    case 4:
+                        showMessage({title: 'タイムアウトになりました', status: 'error'})
+                        break;
+                    default:
+                        showMessage({title: `その他のエラー(エラーコード:${error.code})`, status: 'error'})
+                        break;
+                }
+            })
+        } else {
+            showMessage({title: '位置情報を取得できません', status: 'error'})
+        }
+    }, [position])
+    
+
     const InputKeyword = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        const searchKey = e.target.value
-        setKeyword(searchKey.replace(/　/g," "))
+        e.preventDefault()
+        const searchKey = e.target.value.replace(/　/g," ")
+        setKeyword(searchKey)
     }, [keyword])
 
     const SubmitEnter = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
@@ -43,18 +87,9 @@ const SearchArea: VFC = memo(() => {
     }, [keyword])
 
 
-    //現在位置取得
-    const presentLocation = useCallback(() => {
-        navigator.geolocation.getCurrentPosition(position => {
-            const {latitude, longitude} = position.coords
-            setPosition({latitude, longitude})  
-            console.log(position);
-        })
-    }, [position])
-
     return (
         <Flex direction='column' justify='center' align='center' w='100%' my={5}>
-                <SearchInput keyword={keyword} InputKeyword={InputKeyword} SubmitEnter={SubmitEnter} />
+                <SearchInput keyword={keyword} InputKeyword={InputKeyword} SubmitEnter={SubmitEnter}/>
                 <Box mt='20px'>
                     <PraimaryButton presentLocation={presentLocation} />
                 </Box>

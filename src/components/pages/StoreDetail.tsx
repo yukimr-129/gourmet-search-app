@@ -8,6 +8,10 @@ import { useLocation} from 'react-router'
 import React, { memo, useState, VFC } from 'react'
 
 import { Shop } from '../../types/api/Shop'
+import { TagLeftIcon, TagLabel } from '@chakra-ui/react'
+import { AiFillMoneyCollect } from "react-icons/ai"
+import { IoFastFood, IoNotificationsSharp } from "react-icons/io5"
+import { MdPlace } from "react-icons/md"
 
 
 const StoreDetail: VFC = memo(() => {
@@ -34,7 +38,7 @@ const StoreDetail: VFC = memo(() => {
     };
     
     return (
-            <Box bg='white' w={{base: '100%', md: '90%'}} minHeight={{base: '100%', md: '100vh'}} mx='auto'>
+            <Box bg='white' w={{base: '100%', md: '70%'}} minHeight={{base: '100%', md: '100vh'}} mx='auto'>
                 <Box p={{base: 3, md: 8}}>
                     <Flex direction='column' justify='center' w='100%' h={{sm: '60vh', md: '20vh', xl: '60vh'}}>
                         <Box>
@@ -45,33 +49,45 @@ const StoreDetail: VFC = memo(() => {
                             <Stack spacing='5'>
                                 <Flex>
                                     <HStack>
-                                        <Tag variant="outline" colorScheme="gray">予算</Tag>
-                                        <Text>
+                                        <Tag variant="solid" colorScheme="teal" w='100px' textAlign='center'>
+                                            <TagLeftIcon boxSize="17px" as={AiFillMoneyCollect} />
+                                            <TagLabel>予算</TagLabel>
+                                        </Tag>
+                                        <Text fontSize="md" w={{base: '200px', md: '250px'}}>
                                             {state.budget.name}
                                         </Text>
                                     </HStack>
                                 </Flex>
                                 <Flex>
                                     <HStack>
-                                        <Tag variant="outline" colorScheme="gray">ジャンル</Tag>
-                                        <Text>
+                                        <Tag variant="solid" colorScheme="teal" w='100px'>
+                                            <TagLeftIcon boxSize="17px" as={IoFastFood} />
+                                            <TagLabel>ジャンル</TagLabel>
+                                        </Tag>
+                                        <Text fontSize="md" w={{base: '200px', md: '250px'}}>
                                             {state.genre.name} / {state.sub_genre?.name}
                                         </Text>
                                     </HStack>
                                 </Flex>
                                 <Flex>
                                     <HStack>
-                                        <Tag variant="outline" colorScheme="gray">エリア</Tag>
-                                        <Text>
+                                        <Tag variant="solid" colorScheme="teal" w='100px'>
+                                            <TagLeftIcon boxSize="17px" as={MdPlace} />
+                                            <TagLabel>エリア</TagLabel>
+                                        </Tag>
+                                        <Text fontSize="md" w={{base: '200px', md: '250px'}}>
                                             {state.large_area.name} / {state.middle_area.name}
                                         </Text>
                                     </HStack>
                                 </Flex>
                                 <Flex>
                                     <HStack>
-                                        <Tag variant="outline" colorScheme="gray">アクセス</Tag>
-                                        <Text>
-                                            {state.access}
+                                        <Tag variant="solid" colorScheme="teal" w='100px'>
+                                            <TagLeftIcon boxSize="17px" as={IoNotificationsSharp} />
+                                            <TagLabel>特徴</TagLabel>
+                                        </Tag>
+                                        <Text fontSize="md" w={{base: '200px', md: '250px'}}>
+                                            {state.catch}
                                         </Text>
                                     </HStack>
                                 </Flex>
@@ -92,6 +108,10 @@ const StoreDetail: VFC = memo(() => {
                                     <Tr>
                                         <Th fontSize={{base: 'xs', md: 'lg'}}>住所</Th>
                                         <Td fontSize={{base: 'xs', md: 'lg'}}>{state.address}</Td>
+                                    </Tr>
+                                    <Tr>
+                                        <Th fontSize={{base: 'xs', md: 'lg'}}>アクセス</Th>
+                                        <Td fontSize={{base: 'xs', md: 'lg'}}>{state.access}</Td>
                                     </Tr>
                                     <Tr>
                                         <Th fontSize={{base: 'xs', md: 'lg'}}>駐車場</Th>
