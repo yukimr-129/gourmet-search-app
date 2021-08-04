@@ -9,18 +9,6 @@ import { Position } from '../../../store/globalState/Position'
 import PraimaryButton from '../../atoms/button/PraimaryButton'
 import SearchInput from '../../atoms/searchInput/SearchInput'
 
-// type initwatchStatusType = {
-//     isWatching: boolean;
-//     watchId: number | null;
-// }
-
-// type watchStatusType = {
-//     isWatching: boolean;
-//     watchId: number;
-// }
-
-// type stopWatchPosition = (watchStatus: watchStatusType) => void;
-
 const SearchArea: VFC = memo(() => {
     const [ inputAreaKeyword, setInputAreaKeyword ] = useState('')
     const [ keyword, setKeyword ] = useRecoilState(SearchKeyword)
@@ -42,12 +30,9 @@ const SearchArea: VFC = memo(() => {
                         showMessage({title: '位置情報の利用が許可されていません', status: 'error'})
                         break;
                     case 2:
-                        showMessage({title: '位置情報の利用が許可されていません', status: 'error'})
-                        break;
-                    case 3:
                         showMessage({title: '現在位置が取得できませんでした', status: 'error'})
                         break;
-                    case 4:
+                    case 3:
                         showMessage({title: 'タイムアウトになりました', status: 'error'})
                         break;
                     default:

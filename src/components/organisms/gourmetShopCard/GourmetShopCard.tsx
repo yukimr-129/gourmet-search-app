@@ -15,9 +15,9 @@ const GourmetShopCard: VFC<Props> = memo((props) => {
 
     //店舗詳細へ遷移
     const history = useHistory()
-    const onClickDetailPage = useCallback(() => {
+    const onClickDetailPage = () => {
         history.push({pathname: `detail/${shop.id}`, state: shop})
-    }, [shop])
+    }
 
     return (
         <Link _hover={{opacity: 0.8}} onClick={onClickDetailPage}>
