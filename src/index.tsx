@@ -6,12 +6,14 @@ import { ChakraProvider } from '@chakra-ui/react';
 import theme from './style/theme';
 import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
+import { ScrollToTop } from './ScrollToTop';
 
 ReactDOM.render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
       <BrowserRouter>
         <RecoilRoot>
+          <ScrollToTop />
           <App />
         </RecoilRoot>
       </BrowserRouter>
