@@ -7,6 +7,11 @@ import theme from './style/theme';
 import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import { ScrollToTop } from './ScrollToTop';
+import firebase from './libs/Firebase';
+
+if (process.env.NODE_ENV === 'production') {
+  firebase.analytics();
+}
 
 ReactDOM.render(
   <React.StrictMode>

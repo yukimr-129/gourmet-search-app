@@ -19,8 +19,6 @@ const StoreDetail: VFC = memo(() => {
     const { state }: {state: Shop}  = useLocation()
     const mapKey: string | undefined = process.env.REACT_APP_GOOGLE_MAP_API_KEY
     
-    console.log(state);
-
     //ウィンドウ閉じた際にマーカーを表示
     const onCloseInfoWindow = () => {
         setInfoWindow(!infoWindow)
