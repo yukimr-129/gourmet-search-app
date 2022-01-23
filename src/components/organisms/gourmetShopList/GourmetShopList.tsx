@@ -11,7 +11,6 @@ import { useRecoilState } from 'recoil'
 const GourmetShopList: VFC = memo(() => {
     const { shopList, loading } = useSearchGourmet()
     const [firstMessageFlag, setFirstMessageFlag] = useRecoilState(FirstMessageFlag)
-    console.log(shopList);
     
     const listLength = shopList.length
 

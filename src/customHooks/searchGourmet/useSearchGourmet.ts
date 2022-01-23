@@ -22,7 +22,6 @@ export const useSearchGourmet = () => {
 
     useEffect(() => {
         let unmounted = false
-        console.log(unmounted);
         
         const Search = async (replaceKey: string | null = null, keyword: string | null = null, latitude: number | null, longitude: number | null) => {
             setLoading(true)
@@ -31,8 +30,6 @@ export const useSearchGourmet = () => {
             //現在位置を取得している場合は、keywordを優先する
             const positionFlag = position.latitude && position.longitude
             const SearchKeyword = positionFlag ? keyword : replaceKey
-
-            console.log(SearchKeyword);
             
             try {
                 const BaseURL = process.env.REACT_APP_BASE_URL
@@ -52,7 +49,6 @@ export const useSearchGourmet = () => {
                     setShopList(SearchResult.data.results.shop ?? [])
                 }
 
-                console.log(shopList);
             } catch (error) {
                 showMessage({title: 'お店の取得に失敗しました', status: "error"})
             }    
