@@ -11,6 +11,9 @@ jobs:
       - uses: actions/checkout@v2
       - run: yarn install && yarn run build
         env:
+          REACT_APP_HOTPEPPER_API_KEY: ${{ secrets.REACT_APP_HOTPEPPER_API_KEY }}
+          REACT_APP_BASE_URL: ${{ secrets.REACT_APP_BASE_URL }}
+          REACT_APP_GOOGLE_MAP_API_KEY: ${{ secrets.REACT_APP_GOOGLE_MAP_API_KEY }}
           CI: false	
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
