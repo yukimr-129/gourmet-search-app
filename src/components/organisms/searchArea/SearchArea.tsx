@@ -23,7 +23,6 @@ const SearchArea: VFC = memo(() => {
             navigator.geolocation.getCurrentPosition(position => {
                 const {latitude, longitude} = position.coords
                 setPosition({latitude, longitude})  
-                console.log(position);
             }, (error) => {
                 switch (error.code) {
                     case 1:
