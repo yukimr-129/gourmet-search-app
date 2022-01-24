@@ -1,6 +1,6 @@
 # 飲食店検索アプリ
 
-##URL
+## URL
 https://gourme-search-app.web.app/
 
 ## 機能
